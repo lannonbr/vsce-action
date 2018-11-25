@@ -1,10 +1,45 @@
-# VS Code Deploy Action
+# VS Code VSCE GitHub Action
 
-A [GitHub Action](https://github.com/features/actions) to automate deploying VS Code extensions.
+A [GitHub Action](https://github.com/features/actions) to automate deploying VS Code extensions by using [vsce](https://github.com/Microsoft/vscode-vsce).
 
-It will enable workflows to easily deploy your VS Code extensions to the marketplace as well as push .vsix files to tagged releases on GitHub as well.
+It will enable workflows to easily deploy your VS Code extensions to the marketplace.
 
-I am planning on using [JasonEtco/actions-toolkit](https://github.com/JasonEtco/actions-toolkit) in conjunction with [Microsoft/vscode-vsce](https://github.com/Microsoft/vscode-vsce) to make using the action only require the setup of a few secrets when integrating it into your workflows.
+# Usage
+
+Here's an example workflow which publishes an extension when you push to the master branch.
+
+```workflow
+workflow "Deploy Extension" {
+  on = "push"
+  resolves = ["Publish"]
+}
+
+# Install npm dependencies
+# Note: --unsafe-perm is used as GitHub Actions does not run `npm run post-install` without it for some reason.
+action "npm install" {
+  uses = "actions/npm@33871a7"
+  args = ["install", "--unsafe-perm"]
+}
+
+# Check for master branch
+action "Master" {
+  uses = "actions/bin/filter@master"
+  args = "branch master"
+  needs = ["npm install"]
+}
+
+# publish extension
+action "Publish" {
+  uses = "lannonbr/vsce-action@master"
+  args = "publish -p $VSCE_TOKEN"
+  needs = ["Master"]
+  secrets = ["VSCE_TOKEN"]
+}
+```
+
+# Secrets
+
+The `VSCE_TOKEN` secret is used to authenticate with Azure DevOps when running the `vsce` CLI. You can find out how to create this token here on the VS Code Docs: [Publishing VS Code Extensions](https://code.visualstudio.com/docs/extensions/publish-extension)
 
 # Example Use Cases
 
