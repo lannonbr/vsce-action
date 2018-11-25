@@ -10,7 +10,7 @@ LABEL com.github.actions.description="Wraps the vsce CLI to enable common vsce c
 LABEL com.github.actions.icon="package"
 LABEL com.github.actions.color="green"
 
-RUN npm i vsce
+RUN npm i -g vsce
 
 COPY "entrypoint.sh" "/entrypoint.sh"
 ENTRYPOINT ["/entrypoint.sh"]
