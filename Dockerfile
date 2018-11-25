@@ -1,6 +1,6 @@
 FROM node:10-slim
 
-LABEL version="1.0.0"
+LABEL version="1.0.1"
 LABEL repository="https://github/lannonbr/vscode-deploy-action"
 LABEL homepage="https://github/lannonbr/vscode-deploy-action"
 LABEL maintainer="Benjamin Lannon <benjamin@lannonbr.com>"
