@@ -21,7 +21,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - uses: lannonbr/vsce-action@master
-        args: "publish -p $VSCE_TOKEN"
+        with:
+          args: "publish -p $VSCE_TOKEN"
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 ```
