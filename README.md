@@ -8,33 +8,23 @@ It will enable workflows to easily deploy your VS Code extensions to the marketp
 
 Here's an example workflow which publishes an extension when you push to the master branch.
 
-```workflow
-workflow "Deploy Extension" {
-  on = "push"
-  resolves = ["Publish"]
-}
-
-# Install npm dependencies
-# Note: --unsafe-perm is used as GitHub Actions does not run `npm run post-install` without it for some reason.
-action "npm install" {
-  uses = "actions/npm@33871a7"
-  args = ["install", "--unsafe-perm"]
-}
-
-# Check for master branch
-action "Master" {
-  uses = "actions/bin/filter@master"
-  args = "branch master"
-  needs = ["npm install"]
-}
-
-# publish extension
-action "Publish" {
-  uses = "lannonbr/vsce-action@master"
-  args = "publish -p $VSCE_TOKEN"
-  needs = ["Master"]
-  secrets = ["VSCE_TOKEN"]
-}
+```yaml
+on:
+  push:
+    branches:
+      - master
+name: Deploy Extension
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - uses: lannonbr/vsce-action@master
+        with:
+          args: "publish -p $VSCE_TOKEN"
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 ```
 
 # Secrets

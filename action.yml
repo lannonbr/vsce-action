@@ -1,0 +1,8 @@
+name: "GitHub Action for vsce"
+description: "Wraps the vsce CLI to be used in GitHub Actions"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: package
+  color: green
