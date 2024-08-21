@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:20-slim
 
 RUN npm i -g @vscode/vsce
 

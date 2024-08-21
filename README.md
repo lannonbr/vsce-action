@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
-      - uses: lannonbr/vsce-action@3.0.0
+      - uses: lannonbr/vsce-action@4.0.0
         with:
           args: "publish -p $VSCE_TOKEN"
         env:
